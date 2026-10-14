@@ -1,0 +1,56 @@
+name: Profile cards
+
+# Rebuilds the stats card, top-languages card and contribution snake daily,
+# and publishes them to the `output` branch so main stays free of bot commits.
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [".github/workflows/profile.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-cards
+  cancel-in-progress: true
+
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Contribution snake
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake-dark.svg?color_snake=#ffffff&color_dots=#161616,#0a2a66,#0943a0,#0055df,#4a8eff
+            dist/snake-light.svg?color_snake=#010101&color_dots=#ebedf0,#b9cdf3,#6f9cf0,#0055df,#0943a0
+
+      - name: Stats card
+        uses: readme-tools/github-readme-stats-action@v1
+        with:
+          card: stats
+          options: username=${{ github.repository_owner }}&show_icons=true&include_all_commits=true&card_width=420&custom_title=GitHub%20stats&bg_color=010101&title_color=ffffff&text_color=b3b3b3&icon_color=4a8eff&ring_color=0055df&border_color=262626&border_radius=14
+          path: dist/stats.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Top languages card
+        uses: readme-tools/github-readme-stats-action@v1
+        with:
+          card: top-langs
+          options: username=${{ github.repository_owner }}&layout=compact&langs_count=8&card_width=420&hide=html,css,jupyter%20notebook,makefile&custom_title=Top%20languages&bg_color=010101&title_color=ffffff&text_color=b3b3b3&border_color=262626&border_radius=14
+          path: dist/top-langs.svg
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to output branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
