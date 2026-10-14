@@ -329,7 +329,7 @@ def hero():
 
     # Footer strip
     svg.hline(0, W, 368)
-    svg.text(PAD, 398, "CHENNAI, INDIA", "mono", 10.5, W45, ls=0.08)
+    svg.text(PAD, 398, "BANGALORE, INDIA", "mono", 10.5, W45, ls=0.08)
     svg.text(W / 2, 398, "SYSTEMS · EMBEDDED · SECURITY", "mono", 10.5, W45, anchor="middle", ls=0.08)
     svg.add(f'<circle cx="{W - PAD - 150}" cy="394.5" r="3" fill="#2fbf71"/>')
     svg.text(W - PAD, 398, "OPEN TO SWE ROLES", "mono", 10.5, W60, anchor="end", ls=0.08)
@@ -725,15 +725,9 @@ def now():
     save("now", svg, y + 44)
 
 
-def activity_head():
-    svg = Svg("On GitHub: stats, top languages and contribution graph.")
-    y = section_head(svg, "07", "Activity", "On GitHub")
-    save("activity", svg, y + 18)
-
-
 def contact():
     svg = Svg("Let's talk. I'm looking for software engineering roles in systems, embedded and security. "
-              "Email shashwatmanimaran@gmail.com. Based in Chennai, India.")
+              "Email shashwatmanimaran@gmail.com. Based in Bangalore, India.")
     svg.defs.append('<radialGradient id="cglow" cx=".1" cy="1" r=".9"><stop offset="0" stop-color="#0943a0" '
                     'stop-opacity=".4"/><stop offset="1" stop-color="#0943a0" stop-opacity="0"/></radialGradient>')
     H = 360
@@ -744,7 +738,7 @@ def contact():
     svg.para(PAD, 180, "I'm looking for software engineering roles in systems, embedded and security. If you're "
                        "hiring, or want to talk about something I've built, send me a message.",
              470, size=16, lh=1.6, cls="fu", style=delay(2))
-    cols = [("Direct email", "shashwatmanimaran@gmail.com"), ("Based in", "Chennai, India"),
+    cols = [("Direct email", "shashwatmanimaran@gmail.com"), ("Based in", "Bangalore, India"),
             ("Find me on", "GitHub · LinkedIn · Résumé")]
     y = 266
     svg.hline(PAD, W - PAD, y)
@@ -770,7 +764,6 @@ def main():
     projects()
     recognition()
     now()
-    activity_head()
     contact()
 
 
